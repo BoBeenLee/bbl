@@ -1,4 +1,3 @@
-import { getFeednamiTistories, TistoryItem } from '../libs/tistory';
 import { getAllPosts, PostItem as MDPostItem } from '../libs/post';
 
 const mapRemarkToBlogs = (allMarkdownRemark: MDPostItem[] = []) => {
@@ -16,27 +15,8 @@ const mapRemarkToBlogs = (allMarkdownRemark: MDPostItem[] = []) => {
     );
 };
 
-const mapTistoryToBlogs = (tistories: TistoryItem[] = []) => {
-    return tistories.map((item) => ({
-        createdAt: item.date,
-        id: item.guid,
-        title: item.title,
-        url: item.link,
-        published: true,
-        isExternal: true,
-    }));
-};
-
 export const fetchMD = async () => {
     const response = await getAllPosts();
     const data = mapRemarkToBlogs(response);
-    return data;
-};
-
-export const fetchTistories = async (): Promise<ReturnType<typeof mapTistoryToBlogs>> => {
-    const response = await getFeednamiTistories(
-        'http://cultist-tp.tistory.com/rss'
-    );
-    const data = mapTistoryToBlogs(response);
     return data;
 };
